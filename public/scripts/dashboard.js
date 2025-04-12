@@ -7,7 +7,7 @@ function fetchAllTasks() {
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
 
-    fetch(`http://localhost:3000/api/tasks`, {
+    fetch(`https://project-management-255c.vercel.app/api/tasks`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

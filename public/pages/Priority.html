@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tasks - Project Management App</title>
+    <link rel="stylesheet" href="../styles/tasks.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Task Management</h1>
+      <nav>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="project.html">Projects</a></li>
+          <li><a href="tasks.html">Tasks</a></li>
+          <li><a href="Priority.html">Priority</a></li>
+
+          <li><a href="reminders.html">Reminders</a></li>
+          <li><a href="updates.html">Updates</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      
+
+      <section class="task-list task-list-container">
+        <h2>Your Tasks</h2>
+        <!-- <ul id="taskContainer"> -->
+        <!-- Tasks will be dynamically populated here -->
+        <!-- </ul> -->
+
+        <table id="taskTable">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Repeats</th>
+              <th>Edit Priority</th>
+              <th>Edit Repeats</th>
+            </tr>
+          </thead>
+          <tbody id="taskTableBody">
+            <!-- Tasks will be dynamically populated here -->
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Modal for Priority -->
+      <div id="editModal" class="modal-overlay" style="display: none">
+        <div class="modal-box">
+          <span id="closeModal" class="close-btn">&times;</span>
+          <h3>Edit Task Priority</h3>
+          <label for="prioritySelect">Priority:</label>
+          <select id="prioritySelect">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+          <br /><br />
+          <button id="savePriorityBtn">Save Priority</button>
+        </div>
+      </div>
+
+       <!-- Modal for Repeats -->
+       <div id="editModalRepeats" class="modal-overlay" style="display: none">
+        <div class="modal-box">
+          <span id="closeModalRepeats" class="close-btn">&times;</span>
+          <h3>Edit Task Repeats</h3>
+          <label for="repeatsSelect">Repeats:</label>
+          <select id="repeatsSelect">
+            <option value="none">None</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+          </select>
+          <br /><br />
+          <button id="saveRepeatsBtn">Save Repeats</button>
+        </div>
+      </div>
+
+     
+      
+    </main>
+
+    <script src="../scripts/priority.js"></script>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tasks - Project Management App</title>
+    <link rel="stylesheet" href="../styles/profile.css" />
+    <link rel="stylesheet" href="../styles/dashboard.css">
+  </head>
+  <body>
+    <header>
+      <h1>Task Management</h1>
+      <nav>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="project.html">Projects</a></li>
+          <li><a href="tasks.html">Tasks</a></li>
+          <li><a href="Priority.html">Priority</a></li>
+          <li><a href="reminders.html">Reminders</a></li>
+          <li><a href="updates.html">Updates</a></li>
+
+        </ul>
+      </nav>
+    </header>
+
+
+    <main class="profile-container">
+        <h2>My Profile</h2>
+  
+        <form id="profileForm" class="profile-form">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+  
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+  
+          <button type="submit" class="save-btn">Save Changes</button>
+        </form>
+  
+        <p id="updateStatus" class="status-message"></p>
+      </main>
+
+      <section class="task-list task-list-container">
+        <h2>Your Tasks</h2>
+        <!-- <ul id="taskContainer"> -->
+        <!-- Tasks will be dynamically populated here -->
+        <!-- </ul> -->
+
+        <table id="taskTable">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Repeats</th>
+            </tr>
+          </thead>
+          <tbody id="taskTableBody">
+            <!-- Tasks will be dynamically populated here -->
+          </tbody>
+        </table>
+      </section>
+
+    
+
+    <script src="../scripts/profile.js"></script>
+  </body>
+</html>

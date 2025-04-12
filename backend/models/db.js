@@ -1,7 +1,8 @@
-// models/db.js
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://techtitans121526:Pakistan786@fyp.t7575.mongodb.net/taskManager?retryWrites=true&w=majority&appName=FYP', {
+const dbURI = process.env.MONGODB_URI; // Access the environment variable
+
+mongoose.connect(dbURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -13,4 +14,4 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-module.exports = mongoose;
+module.exports=mongoose;

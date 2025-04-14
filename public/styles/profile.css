@@ -1,96 +1,229 @@
+/* Global Styles */
 body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #f7f7f7;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8fafc;
+  color: #1e293b;
 }
 
+/* Header */
+header {
+  background-color: #1e3a8a;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+}
+
+.dropbtn {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 10px 15px;
+  font-size: 1.2em;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background-color: white;
+  min-width: 180px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dropdown-content a {
+  color: #1e293b;
+  padding: 12px 16px;
+  display: block;
+  text-decoration: none;
+  font-size: 0.95em;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f5f9;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Profile Form */
 .profile-container {
-  max-width: 500px;
+  max-width: 600px;
   margin: 40px auto;
   background: #fff;
-  padding: 25px 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 .profile-container h2 {
   text-align: center;
-  margin-bottom: 20px;
+  color: #1e3a8a;
+  margin-bottom: 25px;
 }
 
 .profile-form .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .profile-form label {
-  text-align: left;
   display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #334155;
 }
 
 .profile-form input {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1em;
 }
 
 .save-btn {
-  display: block;
   width: 100%;
-  padding: 10px;
-  background-color: #4caf50;
+  padding: 12px;
+  background-color: #1e3a8a;
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .save-btn:hover {
-  background-color: #45a049;
+  background-color: #3b82f6;
 }
 
 .status-message {
   text-align: center;
   margin-top: 15px;
   color: #388e3c;
+  font-weight: 500;
 }
 
+/* Task List Section */
 .task-list-container {
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  max-width: 960px;
+  margin: 30px auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 .task-list-container h2 {
-  margin-bottom: 10px;
-}
-
-.task-list-container ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.task-list-container ul li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.task-list,
-.add-task {
-  background: white;
-  padding: 30px;
-  margin: 20px auto;
-  width: 50%;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-}
-
-.task-list-container h2{
   text-align: center;
+  margin-bottom: 20px;
+  color: #1e3a8a;
+}
+
+/* Task Table */
+#taskTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#taskTable th,
+#taskTable td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.95em;
+}
+
+#taskTable th {
+  background-color: #1e3a8a;
+  color: white;
+  text-transform: uppercase;
+}
+
+#taskTable tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dropbtn {
+    font-size: 1em;
+  }
+
+  .profile-container,
+  .task-list-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  #taskTable {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 1024px) {
+  .header-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .dropbtn {
+      font-size: 1em;
+      width: 100%;
+      text-align: left;
+    }
+  
+    .dropdown-content {
+      position: static;
+      width: 100%;
+      box-shadow: none;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+  
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+  
+    .dropdown-content a {
+      border-top: 1px solid #e2e8f0;
+    }
+  
+    .user-form {
+      flex-direction: column;
+    }
 }

@@ -1,130 +1,242 @@
+/* Base Styles */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f2f5;
-    color: #333;
-}
-
-header {
+    background-color: #f8fafc;
+    color: #1e293b;
+  }
+  
+  header {
+    background-color: #1e3a8a;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  h1 {
+    margin: 0;
+    font-size: 1.8em;
+    flex: 1;
+  }
+  
+  /* Dropdown */
+  .dropdown {
+    position: relative;
+  }
+  
+  .dropbtn {
     background-color: #1e3a8a;
     color: white;
-    padding: 20px;
-    text-align: center;
-    font-size: 1.5em;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-nav {
-    background: #0f172a;
-    padding: 15px 0;
-    border-bottom: 2px solid #1e40af;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    gap: 30px;
-}
-
-nav ul li a {
-    color: #f8fafc;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1.2em;
     padding: 10px 15px;
-    transition: color 0.3s ease, transform 0.2s ease;
-}
-
-nav ul li a:hover {
-    color: #3b82f6;
-    transform: translateY(-2px);
-}
-
-main {
-    padding: 40px;
-    text-align: center;
-}
-
-.project-list, .add-project {
+    font-size: 1.1em;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .dropdown-content a {
+    color: #1e293b;
+    padding: 12px 16px;
+    display: block;
+    text-decoration: none;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #f1f5f9;
+  }
+  
+  .dropdown:hover .dropdown-content,
+  .dropdown:focus-within .dropdown-content {
+    display: block;
+  }
+  
+  main {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  
+  /* Section Cards */
+  .project-list, .add-project, .manage-users {
     background: white;
     padding: 30px;
-    margin: 20px auto;
-    width: 50%;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-}
-
-ul#projectContainer {
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  .project-list h2, .add-project h2, .manage-users h2 {
+    margin-top: 0;
+    color: #1e3a8a;
+  }
+  
+  /* Project List */
+  ul#projectContainer {
     list-style: none;
     padding: 0;
-}
-
-ul#projectContainer li {
-    padding: 10px;
-    background: #fff;
-    margin: 5px 0;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.status {
-    font-weight: bold;
-    padding: 3px 8px;
-    border-radius: 5px;
-    margin-left: 10px;
-}
-
-.status.pending {
-    background-color: #ffcc00;
-    color: #fff;
-}
-
-.status.ongoing {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.status.completed {
-    background-color: #28a745;
-    color: #fff;
-}
-
-input, select, button {
-    padding: 10px;
+  }
+  
+  ul#projectContainer li {
+    background: #f1f5f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border-left: 5px solid #3b82f6;
+  }
+  
+  /* Form Inputs & Buttons */
+  input, select, button {
+    width: 100%;
+    padding: 12px;
     margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
     font-size: 1em;
-}
-
-button {
+  }
+  
+  button {
     background: #1e3a8a;
     color: white;
     font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-button:hover {
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
     background: #3b82f6;
-}
-table {
+  }
+  
+  /* Report */
+  #reportContent {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f1f5f9;
+    border-radius: 8px;
+  }
+  
+  /* Manage Users */
+  .user-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .user-form input,
+  .user-form button {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  /* User Table */
+  .manage-users table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-}
-
-table, th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
+  }
+  
+  .manage-users th,
+  .manage-users td {
+    padding: 14px 16px;
     text-align: left;
-}
-
-th {
-    background-color: #f4f4f4;
-}
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.95em;
+  }
+  
+  .manage-users th {
+    background-color: #1e3a8a;
+    color: white;
+    text-transform: uppercase;
+  }
+  
+  .manage-users tr:hover {
+    background-color: #f1f5f9;
+  }
+  
+  .manage-users td button {
+    margin-right: 8px;
+    padding: 6px 10px;
+    font-size: 0.85em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #1e3a8a;
+    color: white;
+    transition: background 0.3s ease;
+  }
+  
+  .manage-users td button:hover {
+    background-color: #3b82f6;
+  }
+  
+  /* Fully Responsive */
+  @media (max-width: 1024px) {
+    .header-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .dropbtn {
+      font-size: 1em;
+      width: 100%;
+      text-align: left;
+    }
+  
+    .dropdown-content {
+      position: static;
+      width: 100%;
+      box-shadow: none;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+  
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+  
+    .dropdown-content a {
+      border-top: 1px solid #e2e8f0;
+    }
+  
+    .user-form {
+      flex-direction: column;
+    }
+  
+    .manage-users table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    .project-list, .add-project, .manage-users {
+      padding: 20px;
+    }
+  
+    h1 {
+      font-size: 1.4em;
+    }
+  }
+  

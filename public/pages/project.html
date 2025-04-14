@@ -1,56 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - Project Management App</title>
-    <link rel="stylesheet" href="../styles/project.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projects - Project Management App</title>
+  <link rel="stylesheet" href="../styles/project.css"/>
 </head>
 <body>
-    <header>
-        <h1>Project Management</h1>
-        <nav>
-            <ul>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="project.html">Projects</a></li>
-                <li><a href="tasks.html">Tasks</a></li>
-                <li><a href="Priority.html">Priority</a></li>
+  <header>
+    <div class="header-container">
+      <h1>Project Management</h1>
+      <div class="dropdown">
+        <button class="dropbtn">☰</button>
+        <div class="dropdown-content">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="project.html">Projects</a>
+          <a href="tasks.html">Tasks</a>
+          <a href="Priority.html">Priority</a>
+          <a href="reminders.html">Reminders</a>
+          <a href="updates.html">Updates</a>
+        </div>
+      </div>
+    </div>
+  </header>
 
-                <li><a href="reminders.html">Reminders</a></li>
-                <li><a href="updates.html">Updates</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <main>
-        <section class="project-list">
-            <h2>Your Projects</h2>
-            <ul id="projectContainer">
-                <!-- Projects will be dynamically loaded here -->
-            </ul>
-        </section>
-        
-        <section class="add-project">
-            <h2>Add New Project</h2>
-            <input type="text" id="projectInput" placeholder="Enter project name">
-            <input type="text" id="projectDescription" placeholder="Enter project description">
-            <select id="projectStatus">
-                <option value="active">Active</option>
-                <option value="archived">Archived</option>
-            </select>
-            <button onclick="addProject()">Add Project</button>
-        </section>
-        <section class="add-project">
-        <div id="reportSection">
-            <h3>Project Report</h3>
-            <select id="projectDropdown" required>
-                <!-- Project options will be dynamically populated here -->
-            </select>
-            <button onclick="generateReport()">Generate Report</button>
-            <div id="reportContent"></div>
-          </div>
-        </section>
-    </main>
+  <main>
+    <section class="project-list">
+      <h2>Your Projects</h2>
+      <ul id="projectContainer">
+        <!-- Projects dynamically rendered -->
+      </ul>
+    </section>
+
+    <section class="add-project">
+      <h2>Add New Project</h2>
+      <input type="text" id="projectInput" placeholder="Enter project name" />
+      <input type="text" id="projectDescription" placeholder="Enter project description" />
+      <select id="projectStatus">
+        <option value="active">Active</option>
+        <option value="archived">Archived</option>
+      </select>
+      <button onclick="addProject()">Add Project</button>
+    </section>
+
+    <section class="add-project">
+      <h2>Project Report</h2>
+      <select id="projectDropdown" required>
+        <!-- Dynamically populated -->
+      </select>
+      <button onclick="generateReport()">Generate Report</button>
+      <div id="reportContent"></div>
+    </section>
+  </main>
     
     <script>
         document.addEventListener("DOMContentLoaded", () => {

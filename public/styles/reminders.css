@@ -4,134 +4,184 @@ body {
     padding: 0;
     background-color: #f0f2f5;
     color: #333;
-}
-
-header {
+  }
+  
+  header {
+    background-color: #1e3a8a;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  h1 {
+    margin: 0;
+    font-size: 1.8em;
+  }
+  
+  .dropdown {
+    position: relative;
+  }
+  
+  .dropbtn {
     background-color: #1e3a8a;
     color: white;
-    padding: 20px;
-    text-align: center;
-    font-size: 1.5em;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-nav {
-    background: #0f172a;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 15px 0;
-    border-bottom: 2px solid #1e40af;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    gap: 30px;
-}
-
-nav ul li {
-    position: relative;
-}
-
-nav ul li a {
-    color: #f8fafc;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1.2em;
     padding: 10px 15px;
-    transition: color 0.3s ease, transform 0.2s ease;
-    position: relative;
-}
-
-nav ul li a::after {
-    content: "";
+    font-size: 1.2em;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  
+  .dropdown-content {
+    display: none;
     position: absolute;
-    left: 50%;
-    bottom: -5px;
-    width: 0;
-    height: 3px;
-    background: #3b82f6;
-    transition: width 0.3s ease, left 0.3s ease;
-}
-
-nav ul li a:hover::after {
-    width: 100%;
-    left: 0;
-}
-
-nav ul li a:hover {
-    color: #3b82f6;
-    transform: translateY(-2px);
-}
-
-main {
+    right: 0;
+    top: 50px;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .dropdown-content a {
+    color: #1e293b;
+    padding: 12px 16px;
+    display: block;
+    text-decoration: none;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #f1f5f9;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  main {
     padding: 40px;
     text-align: center;
-}
-
-.reminder-list, .add-reminder {
+  }
+  
+  .reminder-list, .add-reminder {
     background: white;
     padding: 30px;
     margin: 20px auto;
     width: 50%;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-}
-
-ul#reminderContainer {
+  }
+  
+  ul#reminderContainer {
     list-style: none;
     padding: 0;
-}
-
-ul#reminderContainer li {
+  }
+  
+  ul#reminderContainer li {
     padding: 10px;
     background: #fff;
     margin: 5px 0;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.status {
+  }
+  
+  .status {
     font-weight: bold;
     padding: 3px 8px;
     border-radius: 5px;
     margin-left: 10px;
-}
-
-.status.urgent {
+  }
+  
+  .status.urgent {
     background-color: #dc2626;
     color: #fff;
-}
-
-.status.scheduled {
+  }
+  
+  .status.scheduled {
     background-color: #2563eb;
     color: #fff;
-}
-
-.status.pending {
+  }
+  
+  .status.pending {
     background-color: #f59e0b;
     color: #fff;
-}
-
-input, select, button {
+  }
+  
+  input, select, button {
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;
     border: 1px solid #ddd;
     font-size: 1em;
-}
-
-button {
+    width: 100%;
+  }
+  
+  button {
     background: #1e3a8a;
     color: white;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s ease-in-out;
-}
-
-button:hover {
+  }
+  
+  button:hover {
     background: #3b82f6;
-}
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .header-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .dropbtn {
+      font-size: 1em;
+    }
+  
+    .reminder-list, .add-reminder {
+      width: 90%;
+    }
+  }
+  @media (max-width: 1024px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    
+      .dropbtn {
+        font-size: 1em;
+        width: 100%;
+        text-align: left;
+      }
+    
+      .dropdown-content {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+      }
+    
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+    
+      .dropdown-content a {
+        border-top: 1px solid #e2e8f0;
+      }
+    
+      .user-form {
+        flex-direction: column;
+      }
+  }

@@ -8,23 +8,24 @@
 </head>
 <body>
     <header>
-        <h1>Dashboard</h1>
-        <nav>
-            <ul>
-                <li><a href="manageUsers.html">Manage Users</a></li>
-                <li><a href="adminTasks.html">View Tasks</a></li>
-            </ul>
-        </nav>
-        <div class="user-info">
-            <span id="userEmail"></span>
+        <div class="header-container">
+          <h1>Admin Dashboard</h1>
+          <div class="user-info">
+            <span id="userEmail">User</span>
             <div class="dropdown">
-                <button class="dropbtn">▼</button>
-                <div class="dropdown-content">
-                    <a href="#" id="logoutBtn">Logout</a>
-                </div>
+              <button class="dropbtn">☰</button>
+              <div class="dropdown-content">
+                <a href="adminDashboard.html">Dashboard</a>
+                <a href="manageUsers.html">Manage Users</a>
+                <a href="adminTasks.html">View Tasks</a>
+                <!-- <a href="Profile.html">Profile</a> -->
+    
+                <a href="#" id="logoutBtn">Logout</a>
+              </div>
             </div>
+          </div>
         </div>
-    </header>
+      </header>
     
     <main>
         <section class="overview">

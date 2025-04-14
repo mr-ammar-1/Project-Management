@@ -1,92 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Project Management App</title>
-    <link rel="stylesheet" href="../styles/dashboard.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - Project Management App</title>
+  <link rel="stylesheet" href="../styles/dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
-    <header>
-        <h1>Dashboard</h1>
-        <nav>
-            <ul>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="project.html">Projects</a></li>
-                <li><a href="tasks.html">Tasks</a></li>
-                <li><a href="Priority.html">Priority</a></li>
+  <!-- Header with dropdown and user info -->
+  <header>
+    <div class="header-container">
+      <h1>Dashboard</h1>
+      <div class="user-info">
+        <span id="userEmail">User</span>
+        <div class="dropdown">
+          <button class="dropbtn">☰</button>
+          <div class="dropdown-content">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="project.html">Projects</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="Priority.html">Priority</a>
+            <a href="reminders.html">Reminders</a>
+            <a href="updates.html">Updates</a>
+            <a href="Profile.html">Profile</a>
 
-                <li><a href="reminders.html">Reminders</a></li>
-                <li><a href="updates.html">Updates</a></li>
-            </ul>
-        </nav>
-        <div class="user-info">
-            <span id="userEmail"></span>
-            <div class="dropdown">
-                <button class="dropbtn">▼</button>
-                <div class="dropdown-content">
-                    <a href="./Profile.html" id="profileBtn">My Profile</a>
-                    <a href="#" id="logoutBtn">Logout</a>
-                </div>
-            </div>
+            <a href="#" id="logoutBtn">Logout</a>
+          </div>
         </div>
-    </header>
-    
-    <main>
-        <section class="overview">
-            <h2>Notifications</h2>
-            <ul id="notificationsList"></ul>
-        </section>
-        
-        <section class="stats">
-            <div class="card">
-                <h3>Active Tasks</h3>
-                <p></p>
-            </div>
-            <div class="card">
-                <h3>Completed Tasks</h3>
-                <p></p>
-            </div>
-            <div class="card">
-                <h3>Pending Reminders</h3>
-                <p>5</p>
-            </div>
-        </section>
-    </main>
-    
-    <script src="../scripts/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const email = localStorage.getItem('email');
-            if (email) {
-                document.getElementById('userEmail').textContent = email;
-                fetchNotifications(email);
-            }
+      </div>
+    </div>
+  </header>
 
-            document.getElementById('logoutBtn').addEventListener('click', () => {
-                localStorage.removeItem('email');
-                localStorage.removeItem('password');
-                window.location.href = 'login.html';
-            });
-        });
+  <!-- Main Dashboard Area -->
+  <main>
+    <section class="overview">
+      <h2>Notifications</h2>
+      <ul id="notificationsList"></ul>
+    </section>
 
-        function fetchNotifications(email) {
-    fetch(`https://project-management-255c.vercel.app/api/notifications/${email}`)
+    <section class="stats">
+      <div class="card">
+        <h3>Active Tasks</h3>
+        <p>12</p> <!-- Placeholder, replace dynamically if needed -->
+      </div>
+      <div class="card">
+        <h3>Completed Tasks</h3>
+        <p>8</p>
+      </div>
+      <div class="card">
+        <h3>Pending Reminders</h3>
+        <p>5</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="../scripts/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const email = localStorage.getItem('email');
+      if (email) {
+        document.getElementById('userEmail').textContent = email;
+        fetchNotifications(email);
+      }
+
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+        window.location.href = 'login.html';
+      });
+    });
+
+    function fetchNotifications(email) {
+      fetch(`https://project-management-255c.vercel.app/api/notifications/${email}`)
         .then(response => response.json())
         .then(notifications => {
-            console.log("Fetched notifications:", notifications); // Debugging output
-            const notificationsList = document.getElementById('notificationsList');
-            notificationsList.innerHTML = '';
-            notifications.forEach(notification => {
-                const li = document.createElement('li');
-                li.textContent = notification.message;
-                notificationsList.appendChild(li);
-            });
+          const notificationsList = document.getElementById('notificationsList');
+          notificationsList.innerHTML = '';
+          notifications.forEach(notification => {
+            const li = document.createElement('li');
+            li.textContent = notification.message;
+            notificationsList.appendChild(li);
+          });
         })
         .catch(error => {
-            console.error('Error fetching notifications:', error);
+          console.error('Error fetching notifications:', error);
         });
-}
-    </script>
+    }
+  </script>
 </body>
 </html>

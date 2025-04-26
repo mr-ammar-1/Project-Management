@@ -11,6 +11,14 @@ router.delete('/api/projects/:id', authMiddleware.authenticateUser, projectContr
 router.delete('/api/tasks/:id', authMiddleware.authenticateUser, projectController.deleteTasks);
 
 
+// Invite Collaborators
+
+router.post('/api/projects/:projectId/collaborators', authMiddleware.authenticateUser, projectController.inviteCollaborator);
+
+// router.get('/api/projects/userprojects', projectController.getUserProjects);
+
+router.get('/api/projectsDisplay/userfromprojects', authMiddleware.authenticateUser, projectController.getUserfromProjects);
+
 // Routes for Tasks
 router.post('/api/tasks', authMiddleware.authenticateUser, projectController.addTask);
 router.put('/api/tasks/status', authMiddleware.authenticateUser, projectController.updateTaskStatus);

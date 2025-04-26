@@ -36,10 +36,11 @@
 
                 if (response.ok) {
                     alert("Login successful!");
-
+                    console.log("User data:", data);
                     // Store email and password in local storage
                     localStorage.setItem("email", email);
                     localStorage.setItem("password", password);
+                    localStorage.setItem("userId", data.user._id); 
 
                     if(email == "admin@gmail.com"){
                         window.location.href = "adminDashboard.html";

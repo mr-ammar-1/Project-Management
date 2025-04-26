@@ -393,3 +393,84 @@ exports.getTasksByUser = async (req, res) => {
       .json({ message: "Error fetching tasks by user", error: error.message });
   }
 };
+
+
+exports.inviteCollaborator = async (req, res) => {
+  try {
+      const { email } = req.body; // The email of the user you want to invite
+      const projectId = req.params.projectId;
+
+      console.log(req.body)
+
+      const user = await User.findOne({ email });
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      const project = await Project.findById(projectId);
+      if (!project) {
+          return res.status(404).json({ message: 'Project not found' });
+      }
+
+      // Prevent duplicate invitations
+      if (project.collaborators.includes(user._id)) {
+          return res.status(400).json({ message: 'User already a collaborator' });
+      }
+
+      project.collaborators.push(user._id);
+      await project.save();
+
+      res.status(200).json({ message: 'Collaborator added successfully' });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// exports.getUserProjects = async (req, res) => {
+//   console.log("Hello from here");
+
+//   try {
+//       const userId = req.headers.userid; // use lower-case in headers to avoid mismatch
+
+//       if (!userId) {
+//           return res.status(400).json({ message: "User ID is required" });
+//       }
+
+//       const projects = await Project.find({
+//           $or: [
+//               { created_by: userId },
+//               { collaborators: userId }
+//           ]
+//       });
+//       res.json(projects); // always return an array
+//   } catch (error) {
+//       console.error("Error fetching user projects:", error);
+//       res.status(500).json({ message: "Server Error" });
+//   }
+// };
+
+
+exports.getUserfromProjects = async (req, res) => {
+  console.log("Hello from here");
+
+  try {
+      const userId = req.headers.userid; // use lower-case in headers to avoid mismatch
+
+      if (!userId) {
+          return res.status(400).json({ message: "User ID is required" });
+      }
+
+      const projects = await Project.find({
+          $or: [
+              { created_by: userId },
+              { collaborators: userId }
+          ]
+      });
+      res.json(projects); // always return an array
+  } catch (error) {
+      console.error("Error fetching user projects:", error);
+      res.status(500).json({ message: "Server Error" });
+  }
+};
+

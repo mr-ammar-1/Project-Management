@@ -61,17 +61,23 @@
       <h2>Your Badges</h2>
       <div id="userBadges" class="badge-container"></div>
     </section>
-
+    <section class="badges">
+      <h2>Your Badges</h2>
+      <div id="userRank" class="badge-container"></div>
+    </section>
   </main>
 
   <script src="../scripts/dashboard.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const email = localStorage.getItem('email');
+      const user_id = localStorage.getItem('userId');
+
       if (email) {
         document.getElementById('userEmail').textContent = email;
         fetchNotifications(email);
         fetchUserData(email); // Fetch user data (including badges)
+        fetchUserRank(user_id)
       }
 
       document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -117,23 +123,27 @@
           document.querySelector('.card:nth-child(2) p').textContent = completed_tasks;
 
 
-          // // Display completed tasks
-          // const completedTasksDisplay = document.getElementById('userCompletedTasks');
-          // if (completedTasksDisplay) {
-          //   completedTasksDisplay.innerHTML = `Completed Tasks: ${completed_tasks}`;
-
-          // }
-
-          // Display rank
-          // const rankDisplay = document.getElementById('userRank');
-          // if (rankDisplay) {
-          //   rankDisplay.innerHTML = `Rank: ${rank}`;
-          // }
         })
         .catch(error => {
           console.error('Error fetching user data:', error);
         });
     }
+
+    function fetchUserRank(userId) {
+  fetch(`http://localhost:3000/api/users/rank/${userId}`)
+    .then(response => response.json())
+    .then(data => {
+      const { rank } = data;
+      const badgesList = document.getElementById('userRank');
+
+      const rankElement = document.createElement('p');
+      rankElement.textContent = `Your Rank: ${rank}`;
+      badgesList.appendChild(rankElement);
+    })
+    .catch(error => {
+      console.error('Error fetching user rank:', error);
+    });
+}
 
   </script>
 </body>

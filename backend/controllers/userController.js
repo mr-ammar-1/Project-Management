@@ -179,4 +179,37 @@ exports.getUserByEmail = async (req, res) => {
 };
 
 
+exports.getUserRankById = async (req, res) => {
+  try {
+    const userId = req.params.id; // assuming you're passing user id as a route param
+
+    const users = await User.find().sort({ completed_tasks: -1 }).lean();
+
+    let rank = 1;
+    let prevCompletedTasks = null;
+    let actualRank = 1;
+
+    for (const user of users) {
+      if (prevCompletedTasks !== null && user.completed_tasks < prevCompletedTasks) {
+        rank = actualRank;
+      }
+
+      if (user._id.toString() === userId.toString()) {
+        return res.status(200).json({ rank });
+      }
+
+      prevCompletedTasks = user.completed_tasks;
+      actualRank++;
+    }
+
+    res.status(404).json({ error: "User not found" });
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching user rank",
+      error: error.message,
+    });
+  }
+};
+
 

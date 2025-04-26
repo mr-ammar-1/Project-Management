@@ -8,6 +8,8 @@ router.put('/api/users', userController.updateUser);
 router.delete('/api/users', userController.deleteUser);
 router.post('/api/login', userController.login);
 router.get('/api/users', userController.getAllUsers);
+router.get('/api/users/rank/:id', userController.getUserRankById);
+
 router.get('/api/notifications/:email', userController.getNotificationsByEmail);
 router.get('/api/users/getUserByEmail/:email', userController.getUserByEmail);
 

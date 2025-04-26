@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
   
-    fetch(`https://project-management-255c.vercel.app/api/tasks`, {
+    fetch(`http://localhost:3000/api/tasks`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     alert(selectedTaskId + newPriority);
   
-    fetch(`https://project-management-255c.vercel.app/api/tasks/priority/${selectedTaskId}`, {
+    fetch(`http://localhost:3000/api/tasks/priority/${selectedTaskId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     alert(selectedTaskId + newRepeats);
   
-    fetch(`https://project-management-255c.vercel.app/api/tasks/repeats/${selectedTaskId}`, {
+    fetch(`http://localhost:3000/api/tasks/repeats/${selectedTaskId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function fetchProjects() {
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
-    fetch("https://project-management-255c.vercel.app/api/projects", {
+    fetch("http://localhost:3000/api/projects", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
   
-    fetch("https://project-management-255c.vercel.app/api/tasks", {
+    fetch("http://localhost:3000/api/tasks", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -301,7 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   
   function fetchAssignees() {
-    fetch("https://project-management-255c.vercel.app/api/users", {
+    fetch("http://localhost:3000/api/users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -333,7 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
-    fetch("https://project-management-255c.vercel.app/api/tasks/assign", {
+    fetch("http://localhost:3000/api/tasks/assign", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -372,7 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
-    fetch("https://project-management-255c.vercel.app/api/tasks", {
+    fetch("http://localhost:3000/api/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -18,7 +18,7 @@ function fetchUser() {
   //   const password = localStorage.getItem("password");
 
   // Fetch user data and prefill form
-  fetch(`https://project-management-255c.vercel.app/api/users/getUserByEmail/${email}`, {
+  fetch(`http://localhost:3000/api/users/getUserByEmail/${email}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -53,7 +53,7 @@ document.getElementById("profileForm").addEventListener("submit", (e) => {
   const updatedUsername = usernameField.value.trim();
   const updatedEmail = emailField.value.trim();
 
-  fetch(`https://project-management-255c.vercel.app/api/users`, {
+  fetch(`http://localhost:3000/api/users`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -102,7 +102,7 @@ function fetchTasksByUser() {
 
 //   alert(userId)
 
-  fetch(`https://project-management-255c.vercel.app/api/tasks/getTasksByUser/${userId}`, {
+  fetch(`http://localhost:3000/api/tasks/getTasksByUser/${userId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

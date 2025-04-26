@@ -12,7 +12,7 @@ function fetchAllTasks() {
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
     
-    fetch(`https://project-management-255c.vercel.app/api/tasks`, {
+    fetch(`http://localhost:3000/api/tasks`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ function fetchProjects() {
     
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
-    fetch('https://project-management-255c.vercel.app/api/projects', {
+    fetch('http://localhost:3000/api/projects', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ function fetchProjects() {
 function loadComments(taskId) {
     const email = localStorage.getItem('email');
     const password = localStorage.getItem('password');
-    fetch(`https://project-management-255c.vercel.app/api/${taskId}/comments`,{
+    fetch(`http://localhost:3000/api/${taskId}/comments`,{
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ function addComment() {
         return;
     }
 
-    fetch(`https://project-management-255c.vercel.app/api/${taskId}/comments`, {
+    fetch(`http://localhost:3000/api/${taskId}/comments`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ function fetchTasks() {
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
 
-    fetch('https://project-management-255c.vercel.app/api/tasks', {
+    fetch(`http://localhost:3000/api/tasks?email=${email}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -276,7 +276,7 @@ function filterTasks() {
 
 function fetchAssignees() {
     
-    fetch('https://project-management-255c.vercel.app/api/users', {
+    fetch('http://localhost:3000/api/users', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -310,7 +310,7 @@ function assignTask() {
 
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
-    fetch('https://project-management-255c.vercel.app/api/tasks/assign', {
+    fetch('http://localhost:3000/api/tasks/assign', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -349,7 +349,7 @@ function addTask() {
 
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
-    fetch('https://project-management-255c.vercel.app/api/tasks', {
+    fetch('http://localhost:3000/api/tasks', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

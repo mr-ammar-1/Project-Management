@@ -37,7 +37,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const email = localStorage.getItem('email');
             const password = localStorage.getItem('password');
-            fetch(`https://project-management-255c.vercel.app/api/tasks/due-tomorrow/${email}`, {
+            fetch(`http://localhost:3000/api/tasks/due-tomorrow/${email}`, {
                 headers: {
                     email:email,
                     password:password

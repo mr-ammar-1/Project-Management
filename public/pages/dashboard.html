@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard - Project Management App</title>
   <link rel="stylesheet" href="../styles/dashboard.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 </head>
+
 <body>
   <!-- Header with dropdown and user info -->
   <header>
+
     <div class="header-container">
+
       <h1>Dashboard</h1>
       <div class="user-info">
         <span id="userEmail">User</span>
@@ -53,6 +57,11 @@
         <p>5</p>
       </div>
     </section>
+    <section class="badges">
+      <h2>Your Badges</h2>
+      <div id="userBadges" class="badge-container"></div>
+    </section>
+
   </main>
 
   <script src="../scripts/dashboard.js"></script>
@@ -62,6 +71,7 @@
       if (email) {
         document.getElementById('userEmail').textContent = email;
         fetchNotifications(email);
+        fetchUserData(email); // Fetch user data (including badges)
       }
 
       document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -72,7 +82,7 @@
     });
 
     function fetchNotifications(email) {
-      fetch(`https://project-management-255c.vercel.app/api/notifications/${email}`)
+      fetch(`http://localhost:3000/api/notifications/${email}`)
         .then(response => response.json())
         .then(notifications => {
           const notificationsList = document.getElementById('notificationsList');
@@ -87,6 +97,45 @@
           console.error('Error fetching notifications:', error);
         });
     }
+
+    function fetchUserData(email) {
+      fetch(`http://localhost:3000/api/users/getUserByEmail/${email}`)
+        .then(response => response.json())
+        .then(userData => {
+          console.log(userData);
+
+          const { badges, completed_tasks, rank } = userData;
+
+          // Display badges in the header
+          const badgesList = document.getElementById('userBadges');
+          if (badges && badges.length > 0) {
+            badgesList.innerHTML = 'Badges: ' + badges.map(badge => badge.name).join(', ');
+          } else {
+            badgesList.innerHTML = 'No badges earned yet';
+          }
+
+          document.querySelector('.card:nth-child(2) p').textContent = completed_tasks;
+
+
+          // // Display completed tasks
+          // const completedTasksDisplay = document.getElementById('userCompletedTasks');
+          // if (completedTasksDisplay) {
+          //   completedTasksDisplay.innerHTML = `Completed Tasks: ${completed_tasks}`;
+
+          // }
+
+          // Display rank
+          // const rankDisplay = document.getElementById('userRank');
+          // if (rankDisplay) {
+          //   rankDisplay.innerHTML = `Rank: ${rank}`;
+          // }
+        })
+        .catch(error => {
+          console.error('Error fetching user data:', error);
+        });
+    }
+
   </script>
 </body>
+
 </html>

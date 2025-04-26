@@ -24,6 +24,15 @@ header {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
+.header-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
 /* Navigation */
 nav {
     background: #263238;

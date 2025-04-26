@@ -43,7 +43,7 @@ exports.updateUser = async (req, res) => {
     const { user_id, username, email } = req.body;
 
     const updatedUser = await User.findOneAndUpdate(
-      { user_id },
+      { _id:user_id },
       { username, email },
       { new: true }
     );

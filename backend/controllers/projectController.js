@@ -258,7 +258,7 @@ exports.generateReport = async (req, res) => {
     const projectId = req.params.id;
 
     const tasks = await Task.find({ project_id: projectId });
-
+    console.log(tasks)
     const totalTasks = tasks.length;
     const statusCount = {
       todo: 0,
@@ -384,7 +384,7 @@ exports.assignTask = async (req, res) => {
 
   const { task_id, assignee_id, allocated_by } = req.body;
   const allocated_at = new Date().toISOString();
-
+  console.log(req.body)
 
   try {
     // Update Task assignment in the database
@@ -600,3 +600,119 @@ exports.getUserfromProjects = async (req, res) => {
   }
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// API to get all projects with total and completed tasks count
+exports.getCompletedTasksOfAllProjects = async (req, res) => {
+  try {
+    const { id } = req.params; // project id from URL
+
+    const project = await Project.findById({_id: id});
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    const totalTasks = await Task.countDocuments({ project_id: project._id });
+    const completedTasks = await Task.countDocuments({ project_id: project._id, status: 'completed' });
+
+    const projectSummary = {
+      projectId: project._id,
+      projectName: project.name,
+      totalTasks,
+      completedTasks
+    };
+
+    res.json(projectSummary);
+  } catch (error) {
+    console.error('Error fetching project summaries:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.getUpcomingTasksReminders = async (req, res) => {
+  try {
+    console.log("I am here for reminders backend")
+
+    const { id } = req.params; // 👈 Get the id from the URL params
+    console.log("Assignee ID from params:", id);
+
+    const now = new Date();
+    const next24Hours = new Date(now.getTime() + 24 * 60 * 60 * 1000); // now + 24 hours
+    console.log("Next 24 hours is:" , next24Hours)
+
+    const tasks = await Task.find({
+      due_date: {
+        $gte: now,
+        $lte: next24Hours
+      },
+      // assignee_id: id,
+      // status: { $ne: 'completed' } // optional: only show tasks not yet completed
+    });
+
+    console.log("The upcoming tasks are: " , tasks)
+    res.json(tasks);
+  } catch (err) {
+    console.error('Error fetching task reminders:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+}

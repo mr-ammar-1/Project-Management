@@ -17,7 +17,7 @@ return;
 }
 
 try {
-const response = await fetch(`http://localhost:3000/api/projects/${projectId}/collaborators`, {
+const response = await fetch(`https://project-management-255c.vercel.app/api/projects/${projectId}/collaborators`, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
@@ -40,12 +40,49 @@ alert('Failed to invite collaborator: ' + error.message);
 }
 
 
+// async function fetchProjects() {
+//     const userId = localStorage.getItem("userId");
+//     const email = localStorage.getItem("email");
+//     const password = localStorage.getItem("password");
+
+//     const response = await fetch("http://localhost:3000/api/projectsDisplay/userfromprojects", {
+//         method: "GET",
+//         headers: {
+        
+//             email: email,
+//             password: password,
+//             userId: userId // Pass the userId in headers
+//         }
+//     });
+
+//     const data = await response.json();
+//     console.log("Raw response from backend:", data);
+
+//     // Normalize to array
+//     const projects = Array.isArray(data) ? data : [data];
+
+//     if (!Array.isArray(projects)) {
+//         throw new Error("Invalid data format received");
+//     }
+
+//     const projectContainer = document.getElementById("projectContainer");
+//     projectContainer.innerHTML = "";
+
+//     projects.forEach(project => {
+//         const li = document.createElement("li");
+//         li.innerHTML = `${project.name} <span class="status">${project.status}</span>
+//             <button onclick="deleteProject('${project._id}')">Delete</button>`;
+//         projectContainer.appendChild(li);
+//     });
+// }
+
+
 async function fetchProjects() {
     const userId = localStorage.getItem("userId");
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
 
-    const response = await fetch("http://localhost:3000/api/projectsDisplay/userfromprojects", {
+    const response = await fetch("https://project-management-255c.vercel.app/api/projectsDisplay/userfromprojects", {
         method: "GET",
         headers: {
         
@@ -68,13 +105,69 @@ async function fetchProjects() {
     const projectContainer = document.getElementById("projectContainer");
     projectContainer.innerHTML = "";
 
-    projects.forEach(project => {
+    // projects.forEach(project => {
+    //     const li = document.createElement("li");
+    //     li.innerHTML = `${project.name} <span class="status">${project.status}</span>
+    //         <button onclick="deleteProject('${project._id}')">Delete</button>`;
+    //     projectContainer.appendChild(li);
+    // });
+
+
+
+    for (const project of projects) {
+        const taskSummaryResponse = await fetch(`https://project-management-255c.vercel.app/api/getCompletedTasksOfOneProject/${project._id}`, {
+            method: "GET",
+            headers: {
+                email: email,
+                password: password,
+            }
+        });
+
+        const taskSummary = await taskSummaryResponse.json();
+
+        const progressPercentage = taskSummary.totalTasks > 0 
+            ? Math.round((taskSummary.completedTasks / taskSummary.totalTasks) * 100) 
+            : 0;
+
         const li = document.createElement("li");
-        li.innerHTML = `${project.name} <span class="status">${project.status}</span>
-            <button onclick="deleteProject('${project._id}')">Delete</button>`;
+        li.innerHTML = `
+            <h3>${project.name} <span class="status">${project.status}</span></h3>
+            
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width: ${progressPercentage}%;">
+                    ${progressPercentage}%
+                </div>
+            </div>
+
+            <button onclick="deleteProject('${project._id}')">Delete</button>
+        `;
         projectContainer.appendChild(li);
-    });
+    }
+
+    // for (const project of projects) {
+    //     // Fetch completed/total tasks for each project
+    //     const taskSummaryResponse = await fetch(http://localhost:3000/api/getCompletedTasksOfOneProject/${project._id}, {
+    //         method: "GET",
+    //         headers: {
+    //             email: email,
+    //             password: password,
+    //         }
+    //     });
+
+    //     const taskSummary = await taskSummaryResponse.json();
+
+    //     // Create project element
+    //     const li = document.createElement("li");
+    //     li.innerHTML = `
+    //         <h3>${project.name} <span class="status">${project.status}</span></h3>
+    //         <p>Tasks Completed: ${taskSummary.completedTasks} / ${taskSummary.totalTasks}</p>
+    //         <button onclick="deleteProject('${project._id}')">Delete</button>
+    //     `;
+    //     projectContainer.appendChild(li);
+    // }
 }
+
+
 
 
 async function fetchAllProjects() {
@@ -83,7 +176,7 @@ async function fetchAllProjects() {
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
 
-    const response = await fetch("http://localhost:3000/api/projectsDisplay/userfromprojects", {
+    const response = await fetch("https://project-management-255c.vercel.app/api/projectsDisplay/userfromprojects", {
         method: "GET",
         headers: {
         
@@ -116,7 +209,7 @@ async function fetchCollaborationProjects() {
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
 
-    const response = await fetch("http://localhost:3000/api/projectsDisplay/userfromprojects", {
+    const response = await fetch("https://project-management-255c.vercel.app/api/projectsDisplay/userfromprojects", {
         method: "GET",
         headers: {
         
@@ -155,7 +248,7 @@ const reportContainer = document.getElementById('reportContent');
 reportContainer.innerHTML = "<p>Generating report...</p>";
 
 try {
-const response = await fetch(`http://localhost:3000/api/reports/project/${projectId}`, {
+const response = await fetch(`https://project-management-255c.vercel.app/api/reports/project/${projectId}`, {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
@@ -170,6 +263,9 @@ if (!response.ok) {
 }
 
 const data = await response.json();
+
+
+console.log(data.totalTasks);
 
 const report = `
     <p><strong>Total Tasks:</strong> ${data.totalTasks || 0}</p>
@@ -202,7 +298,7 @@ async function addProject() {
         return;
     }
 
-    await fetch("http://localhost:3000/api/projects", {
+    await fetch("https://project-management-255c.vercel.app/api/projects", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -221,7 +317,7 @@ async function fetchUserProjects() {
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
 
-    const response = await fetch("http://localhost:3000/api/projects/user-projects", {
+    const response = await fetch("https://project-management-255c.vercel.app/api/projects/user-projects", {
         method: "GET",
         headers: {
             "userId": userId,
@@ -241,7 +337,7 @@ const email = localStorage.getItem("email");
 const password = localStorage.getItem("password");
 
 try {
-const response = await fetch(`http://localhost:3000/api/projects/${id}`, {
+const response = await fetch(`https://project-management-255c.vercel.app/api/projects/${id}`, {
     method: "DELETE",
     headers: {
         email: email,

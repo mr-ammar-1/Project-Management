@@ -40,4 +40,17 @@ router.get('/api/:taskId/comments', authMiddleware.authenticateUser, projectCont
 router.get('/api/tasks/getTasksByUser/:id', authMiddleware.authenticateUser, projectController.getTasksByUser);
 
 
+
+
+
+
+
+router.get('/api/tasks/getUpcomingTasks/:id', authMiddleware.authenticateUser, projectController.getUpcomingTasksReminders )
+router.get('/api/getCompletedTasksOfOneProject/:id', projectController.getCompletedTasksOfAllProjects )
+
+
+
+
+
+
 module.exports = router;

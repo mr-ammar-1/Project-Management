@@ -7,7 +7,7 @@ function fetchAllTasks() {
     const email = localStorage.getItem("email");
     const password = localStorage.getItem("password");
 
-    fetch(`https://project-management-255c.vercel.app/api/tasks`, {
+    fetch(`http://localhost:3000/api/tasks?email=${email}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -18,10 +18,10 @@ function fetchAllTasks() {
     .then(response => response.json())
     .then(tasks => {
         const activeTasksCount = tasks.filter(task => task.status !== 'completed').length;
-        const completedTasksCount = tasks.filter(task => task.status === 'completed').length;
+        // const completedTasksCount = tasks.filter(task => task.status === 'completed').length;
 
         document.querySelector('.card:nth-child(1) p').textContent = activeTasksCount;
-        document.querySelector('.card:nth-child(2) p').textContent = completedTasksCount;
+        // document.querySelector('.card:nth-child(2) p').textContent = completedTasksCount;
     })
     .catch(error => console.error('Error fetching tasks:', error));
 }

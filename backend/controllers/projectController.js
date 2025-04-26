@@ -11,7 +11,7 @@ exports.addProject = async (req, res) => {
 
   try {
     const newProject = new Project({
-     
+
       name,
       description,
       created_by,
@@ -19,7 +19,7 @@ exports.addProject = async (req, res) => {
     });
 
     await newProject.save(); // Save the new project to the database
-    res.status(201).json({ message: 'Project added successfully',_id });
+    res.status(201).json({ message: 'Project added successfully', _id });
   } catch (error) {
     res.status(500).json({ message: 'Error adding project', error: error.message });
   }
@@ -28,11 +28,11 @@ exports.addProject = async (req, res) => {
 // Delete Project
 exports.deleteProject = async (req, res) => {
   // console.log("Received ID:", req.params.id);
-  
+
 
   try {
-    
-    const deletedProject = await Project.findOneAndDelete({_id:req.params.id});
+
+    const deletedProject = await Project.findOneAndDelete({ _id: req.params.id });
 
     if (!deletedProject) {
       return res.status(404).json({ message: "Project not found" });
@@ -72,17 +72,22 @@ exports.getProjectById = async (req, res) => {
 // Add Task
 exports.addTask = async (req, res) => {
   console.log('Add Task', req.body);
- 
+
   const { title, description, status, due_date, created_by, project_id } = req.body;
   const created_at = new Date().toISOString();
-
+  
   try {
+    const user = await User.findOne({ email: created_by });
+    if (!user) {
+      return res.status(404).json({ message: 'Creator user not found with given email' });
+    }
+
     const newTask = new Task({
       title,
       description,
       status,
       due_date,
-      created_by,
+      created_by: user._id,  // Save user id instead of email
       project_id,
       created_at
     });
@@ -97,7 +102,31 @@ exports.addTask = async (req, res) => {
 // Get All Tasks
 exports.getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find(); // Fetch all tasks from MongoDB
+    const { email } = req.query;
+
+
+    if (!email) {
+      // No email → return all tasks
+      const tasks = await Task.find();
+      return res.status(200).json(tasks);
+    }
+
+    // Email is present → find user
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found with given email' });
+    }
+
+    // Now get tasks assigned to this user
+    const tasks = await Task.find({
+      $or: [
+        { assignee_id: user._id },
+        { created_by: user._id }
+      ]
+    });
+
+    console.log(tasks)
+
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching tasks', error: error.message });
@@ -106,17 +135,51 @@ exports.getAllTasks = async (req, res) => {
 
 // Update Task Status
 exports.updateTaskStatus = async (req, res) => {
-  const { task_id,progress, status, completed_by } = req.body;
+  const { task_id, progress, status, completed_by } = req.body;
   const completed_at = status === 'completed' ? new Date().toISOString() : null;
-  console.log("Status of Task",req.body)
+  console.log("Status of Task", req.body)
+
+  const user = await User.findOne({ email: completed_by });
+  if (!user) {
+    return res.status(404).json({ message: 'User not found with given email' });
+  }
+
+  console.log(user.email)
+  if (status === 'completed') {
+  
+    user.completed_tasks += 1;
+
+    // 6. Badge logic
+    const badgeList = [];
+    if (user.completed_tasks === 1)
+      badgeList.push({ name: 'First Task!', description: 'You completed your first task!' });
+    if (user.completed_tasks === 10)
+      badgeList.push({ name: '10 Tasks Done', description: 'You’ve completed 10 tasks!' });
+    if (user.completed_tasks === 50)
+      badgeList.push({ name: 'Task Master', description: '50 tasks under your belt!' });
+
+    badgeList.forEach(badge => {
+      if (!user.badges.some(b => b.name === badge.name)) {
+        user.badges.push(badge);
+      }
+    });
+
+    // 7. Rank logic
+    if (user.completed_tasks >= 50) user.rank = 'Pro';
+    else if (user.completed_tasks >= 10) user.rank = 'Intermediate';
+    else user.rank = 'Beginner';
+
+    await user.save();
+  }
+
   try {
     const updatedTask = await Task.findOneAndUpdate(
-      { _id: task_id  },
-      { status,progress, completed_at, completed_by },
+      { _id: task_id },
+      { status, progress, completed_at, completed_by },
       { new: true }
     );
-    
-    
+
+
     if (!updatedTask) {
       return res.status(404).json({ message: 'Task not found' });
     }
@@ -127,36 +190,77 @@ exports.updateTaskStatus = async (req, res) => {
   }
 };
 
-exports.generateReport= async (req, res) => {
+
+// exports.updateTaskStatus = async (req, res) => {
+//   const { task_id,progress, status, completed_by } = req.body;
+//   const completed_at = status === 'completed' ? new Date().toISOString() : null;
+//   console.log("Status of Task",req.body)
+//   try {
+
+
+// const user = await User.findOne({ email: completed_by });
+// if (!user) {
+//   return res.status(404).json({ message: 'User not found with given email' });
+// }
+
+//     const task = await Task.findById(task_id);
+//     if (!task) {
+//       return res.status(404).json({ message: 'Task not found' });
+//     }
+
+//     if (task.assignee_id !== user._id.toString()) {
+//       return res.status(403).json({ message: 'Only assignee can update this task' });
+//     }
+
+//     const updatedTask = await Task.findOneAndUpdate(
+//       { _id: task_id  },
+//       { status,progress, completed_at, completed_by },
+//       { new: true }
+//     );
+
+//     console.log(updatedTask.status)
+
+
+//     if (!updatedTask) {
+//       return res.status(404).json({ message: 'Task not found' });
+//     }
+
+//     res.status(200).json({ message: 'Task status updated successfully' });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error updating task status', error: error.message });
+//   }
+// };
+
+exports.generateReport = async (req, res) => {
   try {
-      const projectId = req.params.id;
-      
-      const tasks = await Task.find({ project_id: projectId });
+    const projectId = req.params.id;
 
-      const totalTasks = tasks.length;
-      const statusCount = {
-          todo: 0,
-          in_progress: 0,
-          completed: 0,
-          archived: 0,
-      };
-      let totalProgress = 0;
+    const tasks = await Task.find({ project_id: projectId });
 
-      tasks.forEach(task => {
-          statusCount[task.status]++;
-          totalProgress += task.progress || 0;
-      });
+    const totalTasks = tasks.length;
+    const statusCount = {
+      todo: 0,
+      in_progress: 0,
+      completed: 0,
+      archived: 0,
+    };
+    let totalProgress = 0;
 
-      const avgProgress = totalTasks > 0 ? (totalProgress / totalTasks).toFixed(2) : 0;
+    tasks.forEach(task => {
+      statusCount[task.status]++;
+      totalProgress += task.progress || 0;
+    });
 
-      res.json({
-          totalTasks,
-          statusCount,
-          avgProgress,
-      });
+    const avgProgress = totalTasks > 0 ? (totalProgress / totalTasks).toFixed(2) : 0;
+
+    res.json({
+      totalTasks,
+      statusCount,
+      avgProgress,
+    });
 
   } catch (error) {
-      res.status(500).json({ error: 'Server error', details: error.message });
+    res.status(500).json({ error: 'Server error', details: error.message });
   }
 };
 
@@ -184,7 +288,7 @@ exports.taskComments = async (req, res) => {
   }
 };
 
-exports.getComments= async (req, res) => {
+exports.getComments = async (req, res) => {
   try {
     const task = await Task.findById(req.params.taskId).select('comments');
     if (!task) return res.status(404).json({ message: 'Task not found' });
@@ -255,15 +359,15 @@ exports.updateTaskRepeats = async (req, res) => {
 
 // Change Task Status (Assign Task)
 exports.assignTask = async (req, res) => {
-  
+
   const { task_id, assignee_id, allocated_by } = req.body;
   const allocated_at = new Date().toISOString();
-  
+
 
   try {
     // Update Task assignment in the database
     const updatedTask = await Task.findOneAndUpdate(
-      { _id :task_id },
+      { _id: task_id },
       { assignee_id, allocated_by, allocated_at },
       { new: true }
     );
@@ -277,7 +381,7 @@ exports.assignTask = async (req, res) => {
 
     // Create a new notification
     const notification = new Notification({
-      
+
       user_id: assignee_id,
       message,
       type: 'assignment',
@@ -287,8 +391,8 @@ exports.assignTask = async (req, res) => {
     });
 
     await notification.save(); // Save the notification to the database
-   console.log(notification);
-   
+    console.log(notification);
+
     res.status(200).json({ message: 'Task assigned successfully, notification sent' });
   } catch (error) {
     res.status(500).json({ message: 'Error assigning task', error: error.message });
@@ -297,18 +401,18 @@ exports.assignTask = async (req, res) => {
 
 exports.updateTaskProgress = async (req, res) => {
   try {
-      const { status } = req.body;
-      const progress = getProgress(status);
+    const { status } = req.body;
+    const progress = getProgress(status);
 
-      const updatedTask = await Task.findByIdAndUpdate(req.params.id, { status, progress }, { new: true });
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, { status, progress }, { new: true });
 
-      if (!updatedTask) {
-          return res.status(404).json({ message: 'Task not found' });
-      }
+    if (!updatedTask) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
 
-      res.json(updatedTask);
+    res.json(updatedTask);
   } catch (error) {
-      res.status(500).json({ message: 'Error updating progress', error });
+    res.status(500).json({ message: 'Error updating progress', error });
   }
 };
 
@@ -367,11 +471,11 @@ exports.getTasksDueTomorrowByEmail = async (req, res) => {
 
 exports.deleteTasks = async (req, res) => {
   // console.log("Received ID:", req.params.id);
-  
+
 
   try {
-    
-    const deletedTasks = await Task.findOneAndDelete({_id:req.params.id});
+
+    const deletedTasks = await Task.findOneAndDelete({ _id: req.params.id });
 
     if (!deletedTasks) {
       return res.status(404).json({ message: "Task not found" });

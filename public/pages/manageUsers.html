@@ -63,8 +63,8 @@ async function fetchUsers() {
         const row = document.createElement("tr");
         row.innerHTML = `<td>${user.username}</td><td class='email'>${user.email}</td>
             <td>
-                <button onclick="editUser('${user.user_id}', '${user.username}', '${user.email}')">Edit</button>
-                <button onclick="deleteUser('${user.user_id}')">Delete</button>
+                <button onclick="editUser('${user._id}', '${user.username}', '${user.email}')">Edit</button>
+                <button onclick="deleteUser('${user._id}')">Delete</button>
             </td>`;
         userContainer.appendChild(row);
     });

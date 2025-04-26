@@ -7,7 +7,10 @@ const { v4: uuidv4 } = require('uuid');
 
 // Add Project
 exports.addProject = async (req, res) => {
+
   const { name, description, created_by, status } = req.body;
+
+  console.log(name, description, created_by, status)
 
   try {
     const newProject = new Project({
@@ -137,58 +140,77 @@ exports.getAllTasks = async (req, res) => {
 exports.updateTaskStatus = async (req, res) => {
   const { task_id, progress, status, completed_by } = req.body;
   const completed_at = status === 'completed' ? new Date().toISOString() : null;
-  console.log("Status of Task", req.body)
-
-  const user = await User.findOne({ email: completed_by });
-  if (!user) {
-    return res.status(404).json({ message: 'User not found with given email' });
-  }
-
-  console.log(user.email)
-  if (status === 'completed') {
-  
-    user.completed_tasks += 1;
-
-    // 6. Badge logic
-    const badgeList = [];
-    if (user.completed_tasks === 1)
-      badgeList.push({ name: 'First Task!', description: 'You completed your first task!' });
-    if (user.completed_tasks === 10)
-      badgeList.push({ name: '10 Tasks Done', description: 'You’ve completed 10 tasks!' });
-    if (user.completed_tasks === 50)
-      badgeList.push({ name: 'Task Master', description: '50 tasks under your belt!' });
-
-    badgeList.forEach(badge => {
-      if (!user.badges.some(b => b.name === badge.name)) {
-        user.badges.push(badge);
-      }
-    });
-
-    // 7. Rank logic
-    if (user.completed_tasks >= 50) user.rank = 'Pro';
-    else if (user.completed_tasks >= 10) user.rank = 'Intermediate';
-    else user.rank = 'Beginner';
-
-    await user.save();
-  }
+  console.log("Status of Task", req.body);
 
   try {
+    // 1. Find the user who is trying to complete the task
+    const user = await User.findOne({ email: completed_by });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found with given email' });
+    }
+
+    console.log("Completed by user:", user.email);
+
+    // 2. Find the task
+    const task = await Task.findById(task_id); // populate user from assigned_to
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    const assignuser = await User.findOne({ _id : task.assignee_id });
+    console.log( assignuser.email , completed_by)
+    if (!assignuser) {
+      return res.status(404).json({ message: 'Assign user not found' });
+    }
+
+
+    // 3. Check if assigned user's email matches completed_by
+    if (assignuser.email !== completed_by) {
+      return res.status(403).json({ message: 'You are not authorized to update this task' });
+    }
+
+    // 4. If status is completed, update user's completed tasks
+    if (status === 'completed') {
+      user.completed_tasks += 1;
+
+      // Badge logic
+      const badgeList = [];
+      if (user.completed_tasks === 1)
+        badgeList.push({ name: 'First Task!', description: 'You completed your first task!' });
+      if (user.completed_tasks === 10)
+        badgeList.push({ name: '10 Tasks Done', description: 'You’ve completed 10 tasks!' });
+      if (user.completed_tasks === 50)
+        badgeList.push({ name: 'Task Master', description: '50 tasks under your belt!' });
+
+      badgeList.forEach(badge => {
+        if (!user.badges.some(b => b.name === badge.name)) {
+          user.badges.push(badge);
+        }
+      });
+
+      // Rank logic
+      if (user.completed_tasks >= 50) user.rank = 'Pro';
+      else if (user.completed_tasks >= 10) user.rank = 'Intermediate';
+      else user.rank = 'Beginner';
+
+      await user.save();
+    }
+
+    // 5. Update task
     const updatedTask = await Task.findOneAndUpdate(
       { _id: task_id },
       { status, progress, completed_at, completed_by },
       { new: true }
     );
 
+    res.status(200).json({ message: 'Task status updated successfully', task: updatedTask });
 
-    if (!updatedTask) {
-      return res.status(404).json({ message: 'Task not found' });
-    }
-
-    res.status(200).json({ message: 'Task status updated successfully' });
   } catch (error) {
+    console.error('Error updating task:', error);
     res.status(500).json({ message: 'Error updating task status', error: error.message });
   }
 };
+
 
 
 // exports.updateTaskStatus = async (req, res) => {
